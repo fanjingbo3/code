@@ -1,0 +1,37 @@
+# configs/experiments/pearl_alm.yaml
+
+experiment:
+  type: "pearl_train"
+  output_dir: "./results/pearl_test_run"
+  log_level: "INFO"
+  seed: 42
+
+data:
+  # Meta-RL 不需要读取具体的 instance_folder，因为是动态生成的
+  # 但为了代码兼容性，可以指一个空路径或者保留之前的设置
+  instance_folder: "data/benchmark_instances"
+
+solver:
+  type: "classical"  # 强制使用经典求解器
+
+pearl:
+  # 网络结构
+  latent_dim: 5       # Context 向量的维度
+  hidden_dim: 256     # 神经网络隐藏层大小
+
+  # 训练超参数
+  learning_rate: 0.0003
+  gamma: 0.99
+
+  # Meta-RL 流程参数
+  num_iterations: 1000      # 总共训练多少轮
+  meta_batch_size: 4        # 每次并行采样几个 Task
+  num_context_episodes: 5   # 每个 Task 试跑几次来推断 Context
+  num_train_episodes: 10    # 推断出 Context 后，跑几次来收集训练数据
+  num_gradient_steps: 4     # 每次采集完数据，网络更新几次
+  buffer_size: 100000       # Replay Buffer 大小
+
+alm:
+  # ALM 求解器的基础设置
+  max_iterations: 100       # ALM 内部最大迭代次数
+  initial_penalty_mu: 10.0  # 如果需要默认值的话

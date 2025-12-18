@@ -22,7 +22,12 @@ void MCTS_Init(int Inst_Index)
                 int x = Stored_Rec[Inst_Index][i][j];
                 double v = Stored_Rec_Value[Inst_Index][i][j];
                 if (x != -2) {
-                    Weight[i][x] = 1.0*v;
+                    //Weight[i][x] = 1.0*v;
+                    if (rand() % 100 < 30) {
+              Weight[i][x] = 0.0; // »ÙµôÕâÌõºÃ±ß
+                 } else {
+                Weight[i][x] = 1.0 * v;
+                }
                 }
 		else {Weight[i][x] = 0.0;}
             }
